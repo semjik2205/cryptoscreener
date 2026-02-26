@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.cryptoscreener.R
 import com.example.cryptoscreener.databinding.FragmentLoginBinding
+import com.example.cryptoscreener.security.PinManager
 
 class LoginFragment : Fragment() {
 
@@ -15,6 +17,8 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val enteredPin = StringBuilder()
+    private lateinit var pinManager: PinManager
+
     private val dots by lazy {
         listOf(binding.dot1, binding.dot2, binding.dot3, binding.dot4)
     }
@@ -29,7 +33,19 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        pinManager = PinManager(requireContext())
+        updateSubtitle()
         setupNumpad()
+    }
+
+    // Меняем подсказку в зависимости от того, первый запуск или нет
+    private fun updateSubtitle() {
+        binding.tvSubtitle.text = if (pinManager.isPinSet()) {
+            "Введите PIN"
+        } else {
+            "Создайте PIN"
+        }
     }
 
     private fun setupNumpad() {
@@ -70,9 +86,28 @@ class LoginFragment : Fragment() {
     }
 
     private fun onPinComplete() {
-        // PIN логика будет добавлена в Шаге 3
-        // Пока любые 4 цифры открывают скринер
-        findNavController().navigate(R.id.action_login_to_screener)
+        val pin = enteredPin.toString()
+
+        if (pinManager.isPinSet()) {
+            // PIN уже есть — проверяем
+            if (pinManager.verifyPin(pin)) {
+                findNavController().navigate(R.id.action_login_to_screener)
+            } else {
+                // Неверный PIN — показываем ошибку и сбрасываем
+                Toast.makeText(requireContext(), "Неверный PIN. Попробуйте снова.", Toast.LENGTH_SHORT).show()
+                resetPin()
+            }
+        } else {
+            // Первый запуск — сохраняем PIN
+            pinManager.savePin(pin)
+            Toast.makeText(requireContext(), "PIN установлен!", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_login_to_screener)
+        }
+    }
+
+    private fun resetPin() {
+        enteredPin.clear()
+        updateDots()
     }
 
     override fun onDestroyView() {
