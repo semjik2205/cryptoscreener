@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Backgrounds -->
+    <color name="bg_main">#0D1117</color>
+    <color name="bg_card">#161B22</color>
+
+    <!-- Accent -->
+    <color name="accent_gold">#F0B90B</color>
+
+    <!-- Text -->
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#8B949E</color>
+
+    <!-- Market -->
+    <color name="price_up">#3FB950</color>
+    <color name="price_down">#F85149</color>
+
+    <!-- Navigation -->
+    <color name="nav_selected">#F0B90B</color>
+    <color name="nav_unselected">#8B949E</color>
 </resources>
