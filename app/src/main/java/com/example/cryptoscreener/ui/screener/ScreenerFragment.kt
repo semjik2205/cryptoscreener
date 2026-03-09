@@ -9,6 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoscreener.databinding.FragmentScreenerBinding
 import com.example.cryptoscreener.viewmodel.ScreenerViewModel
+import androidx.navigation.fragment.findNavController
+import com.example.cryptoscreener.R
+import com.example.cryptoscreener.ui.detail.DetailFragment
 
 class ScreenerFragment : Fragment() {
 
@@ -34,7 +37,15 @@ class ScreenerFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = CryptoAdapter(mutableListOf())
+        adapter = CryptoAdapter(mutableListOf()) { crypto ->
+            val bundle = Bundle().apply {
+                putString(DetailFragment.ARG_COIN_ID, crypto.id)
+                putString(DetailFragment.ARG_COIN_NAME, crypto.name)
+                putFloat(DetailFragment.ARG_COIN_PRICE, crypto.currentPrice.toFloat())
+                putFloat(DetailFragment.ARG_COIN_CHANGE, crypto.priceChangePercent.toFloat())
+            }
+            findNavController().navigate(R.id.action_screener_to_detail, bundle)
+        }
         binding.rvCryptoList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvCryptoList.adapter = adapter
     }

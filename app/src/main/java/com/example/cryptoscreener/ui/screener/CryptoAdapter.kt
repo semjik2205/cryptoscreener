@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoscreener.databinding.ItemCryptoBinding
 import com.example.cryptoscreener.model.Crypto
 
-class CryptoAdapter(private val items: MutableList<Crypto>) :
-    RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>() {
+class CryptoAdapter(
+    private val items: MutableList<Crypto>,
+    private val onItemClick: ((Crypto) -> Unit)? = null
+) : RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>() {
 
     inner class CryptoViewHolder(private val binding: ItemCryptoBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -25,6 +27,10 @@ class CryptoAdapter(private val items: MutableList<Crypto>) :
                 if (crypto.priceChangePercent >= 0) 0xFF3FB950.toInt()
                 else 0xFFF85149.toInt()
             )
+
+            binding.root.setOnClickListener {
+                onItemClick?.invoke(crypto)
+            }
         }
     }
 
@@ -40,9 +46,10 @@ class CryptoAdapter(private val items: MutableList<Crypto>) :
     }
 
     override fun getItemCount() = items.size
+
     fun updateData(newItems: List<Crypto>) {
-        (items as MutableList).clear()
-        (items as MutableList).addAll(newItems)
+        items.clear()
+        items.addAll(newItems)
         notifyDataSetChanged()
     }
 }

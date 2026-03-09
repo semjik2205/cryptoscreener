@@ -50,4 +50,25 @@ object CryptoRepository {
             .sortedBy { it.priceChangePercent }
             .take(3)
     }
+    private val chartCache = mutableMapOf<String, List<Pair<Long, Double>>>()
+    private val chartCacheTime = mutableMapOf<String, Long>()
+    private val chartCacheTimeout = 10 * 60 * 1000L // 10 минут
+
+    suspend fun getChartData(coinId: String, days: String): List<Pair<Long, Double>> {
+        val cacheKey = "${coinId}_${days}"
+        val now = System.currentTimeMillis()
+        val lastFetch = chartCacheTime[cacheKey] ?: 0L
+
+        if (chartCache.containsKey(cacheKey) && now - lastFetch < chartCacheTimeout) {
+            return chartCache[cacheKey]!!
+        }
+
+        val response = api.getMarketChart(coinId, days = days)
+        val data = response.prices.map { point ->
+            Pair(point[0].toLong(), point[1])
+        }
+        chartCache[cacheKey] = data
+        chartCacheTime[cacheKey] = now
+        return data
+    }
 }

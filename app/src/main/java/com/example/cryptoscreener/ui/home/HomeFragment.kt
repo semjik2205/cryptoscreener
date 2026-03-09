@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoscreener.databinding.FragmentHomeBinding
 import com.example.cryptoscreener.ui.screener.CryptoAdapter
 import com.example.cryptoscreener.viewmodel.HomeViewModel
+import androidx.navigation.fragment.findNavController
+import com.example.cryptoscreener.R
+import com.example.cryptoscreener.ui.detail.DetailFragment
 
 class HomeFragment : Fragment() {
 
@@ -37,13 +40,27 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() {
-        gainersAdapter = CryptoAdapter(mutableListOf())
+        gainersAdapter = CryptoAdapter(mutableListOf()) { crypto ->
+            navigateToDetail(crypto)
+        }
         binding.rvGainers.layoutManager = LinearLayoutManager(requireContext())
         binding.rvGainers.adapter = gainersAdapter
 
-        losersAdapter = CryptoAdapter(mutableListOf())
+        losersAdapter = CryptoAdapter(mutableListOf()) { crypto ->
+            navigateToDetail(crypto)
+        }
         binding.rvLosers.layoutManager = LinearLayoutManager(requireContext())
         binding.rvLosers.adapter = losersAdapter
+    }
+
+    private fun navigateToDetail(crypto: com.example.cryptoscreener.model.Crypto) {
+        val bundle = Bundle().apply {
+            putString(DetailFragment.ARG_COIN_ID, crypto.id)
+            putString(DetailFragment.ARG_COIN_NAME, crypto.name)
+            putFloat(DetailFragment.ARG_COIN_PRICE, crypto.currentPrice.toFloat())
+            putFloat(DetailFragment.ARG_COIN_CHANGE, crypto.priceChangePercent.toFloat())
+        }
+        findNavController().navigate(R.id.action_home_to_detail, bundle)
     }
 
     private fun observeViewModel() {

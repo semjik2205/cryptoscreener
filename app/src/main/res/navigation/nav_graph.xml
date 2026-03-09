@@ -18,12 +18,20 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.cryptoscreener.ui.home.HomeFragment"
-        android:label="Главная"/>
+        android:label="Главная">
+        <action
+            android:id="@+id/action_home_to_detail"
+            app:destination="@id/detailFragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/screenerFragment"
         android:name="com.example.cryptoscreener.ui.screener.ScreenerFragment"
-        android:label="Скринер"/>
+        android:label="Скринер">
+        <action
+            android:id="@+id/action_screener_to_detail"
+            app:destination="@id/detailFragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/newsFragment"
@@ -39,5 +47,22 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.cryptoscreener.ui.settings.SettingsFragment"
         android:label="Настройки"/>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.cryptoscreener.ui.detail.DetailFragment"
+        android:label="Детали монеты">
+        <argument
+            android:name="coin_id"
+            app:argType="string"/>
+        <argument
+            android:name="coin_name"
+            app:argType="string"/>
+        <argument
+            android:name="coin_price"
+            app:argType="float"/>
+        <argument
+            android:name="coin_change"
+            app:argType="float"/>
+    </fragment>
 
 </navigation>
