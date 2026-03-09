@@ -9,13 +9,35 @@
         android:name="com.example.cryptoscreener.ui.login.LoginFragment"
         android:label="Login">
         <action
-            android:id="@+id/action_login_to_screener"
-            app:destination="@id/screenerFragment" />
+            android:id="@+id/action_login_to_home"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.cryptoscreener.ui.home.HomeFragment"
+        android:label="Главная"/>
 
     <fragment
         android:id="@+id/screenerFragment"
         android:name="com.example.cryptoscreener.ui.screener.ScreenerFragment"
-        android:label="Crypto Screener" />
+        android:label="Скринер"/>
+
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.example.cryptoscreener.ui.news.NewsFragment"
+        android:label="Новости"/>
+
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.cryptoscreener.ui.favorites.FavoritesFragment"
+        android:label="Избранное"/>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.cryptoscreener.ui.settings.SettingsFragment"
+        android:label="Настройки"/>
 
 </navigation>

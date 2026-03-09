@@ -89,19 +89,16 @@ class LoginFragment : Fragment() {
         val pin = enteredPin.toString()
 
         if (pinManager.isPinSet()) {
-            // PIN уже есть — проверяем
             if (pinManager.verifyPin(pin)) {
-                findNavController().navigate(R.id.action_login_to_screener)
+                findNavController().navigate(R.id.action_login_to_home)
             } else {
-                // Неверный PIN — показываем ошибку и сбрасываем
                 Toast.makeText(requireContext(), "Неверный PIN. Попробуйте снова.", Toast.LENGTH_SHORT).show()
                 resetPin()
             }
         } else {
-            // Первый запуск — сохраняем PIN
             pinManager.savePin(pin)
             Toast.makeText(requireContext(), "PIN установлен!", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_login_to_screener)
+            findNavController().navigate(R.id.action_login_to_home)
         }
     }
 

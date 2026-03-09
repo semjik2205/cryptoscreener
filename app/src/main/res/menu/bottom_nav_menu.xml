@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Главная"/>
+
+    <item
+        android:id="@+id/screenerFragment"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="Скринер"/>
+
+    <item
+        android:id="@+id/newsFragment"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Новости"/>
+
+    <item
+        android:id="@+id/favoritesFragment"
+        android:icon="@android:drawable/btn_star"
+        android:title="Избранное"/>
+
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="Настройки"/>
+
+</menu>
