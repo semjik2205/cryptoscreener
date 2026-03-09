@@ -9,9 +9,8 @@ interface CoinGeckoApi {
     @GET("coins/markets")
     suspend fun getMarkets(
         @Query("vs_currency") currency: String = "usd",
-        @Query("ids") ids: String = "bitcoin,ethereum",
         @Query("order") order: String = "market_cap_desc",
-        @Query("per_page") perPage: Int = 10,
+        @Query("per_page") perPage: Int = 100,
         @Query("page") page: Int = 1,
         @Query("sparkline") sparkline: Boolean = false,
         @Query("price_change_percentage") priceChangePercentage: String = "24h"
