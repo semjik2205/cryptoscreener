@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoscreener.databinding.ItemCryptoBinding
 import com.example.cryptoscreener.model.Crypto
 
-class CryptoAdapter(private val items: List<Crypto>) :
+class CryptoAdapter(private val items: MutableList<Crypto>) :
     RecyclerView.Adapter<CryptoAdapter.CryptoViewHolder>() {
 
     inner class CryptoViewHolder(private val binding: ItemCryptoBinding) :
@@ -40,4 +40,9 @@ class CryptoAdapter(private val items: List<Crypto>) :
     }
 
     override fun getItemCount() = items.size
+    fun updateData(newItems: List<Crypto>) {
+        (items as MutableList).clear()
+        (items as MutableList).addAll(newItems)
+        notifyDataSetChanged()
+    }
 }
